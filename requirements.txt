@@ -1,0 +1,59 @@
+Build a microservice for delivering webhooks to thirdparty clients using Golang
+
+- Use GoFiber for creating microservices with Restful APIs
+- Use Gorm as the ORM for managing models
+- Use middlewares for Auth, RBAC, Logging, metrics, Errors
+- Use redis with Go
+- Use Gocraft/work
+- Use kafka with Go, implement workers
+- Excel or CSV processing in Go
+- Creating processes for workers in yaml files
+- handle secrets using .env
+
+- as a user I should be able to add a new event and let my users subscribe to these events
+- these events can be triggered manullay or by uploading a file or by putting a msg in a kafka queue or by an API
+- retry should have exponential backoff
+- thirdparty users can configure different endpoints for different events
+- there should be a way to identify how the event is identified and how ot figure out for which subscribers the webhook should be triggered
+- there should be log of each event with the payload
+
+
+project/
+├── cmd/
+│   └── main.go
+├── config/
+│   └── config.go
+├── internal/
+│   ├── api/
+│   │   ├── handlers/
+│   │   │   ├── event_handler.go
+│   │   │   └── subscription_handler.go
+│   │   ├── middlewares/
+│   │   │   ├── auth.go
+│   │   │   ├── rbac.go
+│   │   │   ├── logging.go
+│   │   │   ├── metrics.go
+│   │   │   └── errors.go
+│   │   └── routes.go
+│   ├── models/
+│   │   ├── event.go
+│   │   ├── subscription.go
+│   │   └── webhook_log.go
+│   ├── services/
+│   │   ├── event_service.go
+│   │   ├── subscription_service.go
+│   │   └── webhook_service.go
+│   ├── workers/
+│   │   ├── kafka_consumer.go
+│   │   ├── file_processor.go
+│   │   └── webhook_sender.go
+│   └── utils/
+│       ├── redis.go
+│       └── kafka.go
+├── migrations/
+│   └── 001_initial_schema.sql
+├── worker_configs/
+│   └── workers.yaml
+├── .env
+├── go.mod
+└── go.sum

@@ -1,0 +1,23 @@
+workers:
+  - name: kafka_consumer
+    type: kafka
+    config:
+      brokers:
+        - localhost:9092
+      topic: webhook_events
+      group_id: webhook_group
+
+  - name: file_processor
+    type: file
+    config:
+      input_directory: ./uploads
+      processed_directory: ./processed
+      supported_extensions:
+        - .csv
+        - .xlsx
+
+  - name: webhook_sender
+    type: redis
+    config:
+      concurrency: 10
+      queue: webhook_queue
